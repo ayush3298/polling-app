@@ -1,0 +1,39 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Voting App </title>
+
+    <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css'>
+    <link rel="stylesheet" href="{% static 'poll/style.css' %}">
+
+</head>
+<body data-gr-c-s-loaded="true">
+<!-- partial:index.partial.html -->
+<!-- Design inspired by this shoot: https://dribbble.com/shots/3367213-Poll-app-concept -->
+
+<div class="container">
+    <h2>{{ poll.title_text }}</h2>
+    <form method="post" action="/">
+        {% csrf_token %}
+        <div id="items_container" class="items-container">
+            {% for choice in choices %}
+                <div class="item" data-id="id_1">
+                    <input id="radio-1" class="radio-custom" name="vote" value="{{ choice.id }}"
+                           type="radio">
+                    <span><label for="radio-1" class="radio-custom-label">{{ choice.choice_text }}</label></span>
+                </div>
+            {% endfor %}
+        </div>
+        <button id="submit_btn" class="btn">Submit vote!</button>
+
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+<script src="{% static 'poll/script.js' %}"></script>
+
+
+</body>
+</html>

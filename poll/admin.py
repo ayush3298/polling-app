@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Choice, Question
+from .models import Choice, Title
 
 
 class ChoiceInline(admin.TabularInline):
@@ -8,13 +8,14 @@ class ChoiceInline(admin.TabularInline):
     extra = 3
 
 
-class QuestionAdmin(admin.ModelAdmin):
+class TitleAdmin(admin.ModelAdmin):
     fieldsets = [
-        (None,               {'fields': ['question_text']}),
+        (None, {'fields': ['title_text']}),
         ('Date information', {'fields': ['pub_date'], 'classes': ['collapse']}),
     ]
-    list_display = ('question_text', 'pub_date')
+    list_display = ('title_text', 'pub_date')
 
     inlines = [ChoiceInline]
 
-admin.site.register(Question, QuestionAdmin)
+
+admin.site.register(Title, TitleAdmin)
