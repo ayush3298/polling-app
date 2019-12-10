@@ -1,7 +1,9 @@
-from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
+from django.db import transaction
 from django.shortcuts import redirect
-from .models import Title, Choice
+from django.shortcuts import render
+
+from .models import Title, Choice, Vote
 
 
 def index(request):
@@ -40,6 +42,23 @@ def login_view(request):
         return render(request,
                       'login.html')
 
+
+from django.db.utils import IntegrityError
+
+
+@transaction.atomic
 def vote(request):
     if request.method == 'POST':
-        party
+        log_out = False
+        try:
+            party = request.POST.get('vote')
+            choice = Choice.objects.get(id=party)
+            choice.votes += 1
+            choice.save()
+            Vote.objects.create(title=choice.title, choice=choice, user=request.user)
+            logout(request)
+            return render(request,
+                          'login.html', {'error': "Thanks for Voting"})
+        except IntegrityError:
+            return render(request,
+                          'login.html', {'error': "Bar Bar Vote ni krte..."})
