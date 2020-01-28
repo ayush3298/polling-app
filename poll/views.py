@@ -61,4 +61,4 @@ def vote(request):
                           'login.html', {'error': "Thanks for Voting"})
         except IntegrityError:
             return render(request,
-                          'login.html', {'error': "Bar Bar Vote ni krte..."})
+                          'login.html', {'error': "You can not vote twice"})
